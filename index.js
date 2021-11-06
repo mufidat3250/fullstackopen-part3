@@ -1,6 +1,7 @@
-// const express = require("express");
+const { response } = require("express");
+const express = require("express");
 
-// const { response, json } = require("express");
+const app = express();
 const http = require("http");
 
 let persons = [
@@ -26,9 +27,8 @@ let persons = [
   },
 ];
 
-const app = http.createServer((request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(persons));
+app.get("/api/persons", (request, response) => {
+  response.json(persons);
 });
 
 const PORT = 3001;
