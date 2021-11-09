@@ -1,3 +1,4 @@
+const { request, response } = require("express");
 const express = require("express");
 
 const app = express();
@@ -30,6 +31,17 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
+  const person = request.body;
+  console.log(person);
+  response.json(persons);
+});
+
+app.get("/info", (request, response) => {
+  response.send(
+    `<p>Phone book has information for ${
+      persons.length
+    } people</p> ${new Date()}`
+  );
   response.json(persons);
 });
 
