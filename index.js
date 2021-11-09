@@ -31,8 +31,6 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  const person = request.body;
-  console.log(person);
   response.json(persons);
 });
 
@@ -43,6 +41,16 @@ app.get("/info", (request, response) => {
     } people</p> ${new Date()}`
   );
   response.json(persons);
+});
+
+app.get(`/api/persons/:id`, (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => person.id === id);
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).send("<h1>Error 404</h1>");
+  }
 });
 
 const PORT = 5000;
