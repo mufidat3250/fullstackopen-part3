@@ -1,0 +1,28 @@
+DELETE  http://localhost:5000/api/persons/1
+
+
+###
+
+
+POST http://localhost:5000/api/persons HTTP/1.1
+Content-Type: application/json
+{
+    "id":,
+    "name": "",
+    "number": ""
+}
+
+
+###
+
+POST http://localhost:5000/api/persons
+Content-Type: application/json
+
+{
+    "id":8,
+    "name": "",
+    "number": ""
+}
+
+###
+GET http://localhost:5000/api/persons

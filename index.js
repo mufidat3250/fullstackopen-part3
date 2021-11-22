@@ -1,7 +1,19 @@
 const { request, response } = require("express");
 const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
+app.use(express.json());
+
+app.use(morgan("tiny"));
+app.use(cors());
+
+morgan.token(":method :status :url'HTTP/:http-version'");
+
+function getRandomInt() {
+  return Math.floor(Math.random() * 1000);
+}
 
 let persons = [
   {
@@ -26,9 +38,9 @@ let persons = [
   },
 ];
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
-});
+// app.get("/", (request, response) => {
+//   response.send("<h1>Hello World!</h1>");
+// });
 
 app.get("/api/persons", (request, response) => {
   response.json(persons);
@@ -53,7 +65,40 @@ app.get(`/api/persons/:id`, (request, response) => {
   }
 });
 
-const PORT = 5000;
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
+  request.status(204).end();
+});
+app.post("/api/persons/", (request, response) => {
+  let person = request.body;
+  console.log(person);
+
+  if (!person.name && !person.number) {
+    return response.status(400).json({
+      error: " missing name",
+    });
+  } else {
+    person_ = {
+      id: getRandomInt(),
+      name: person.name,
+      number: person.number,
+    };
+    person = [{ ...person, person_ }];
+
+    response.json(person);
+  }
+
+  if (
+    person.find((p) => {
+      p.name === person.name;
+    })
+  ) {
+    return response.status(400).json({ error: "name must be unique" });
+  }
+});
+
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port${PORT}`);
 });
