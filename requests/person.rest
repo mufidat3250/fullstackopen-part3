@@ -1,0 +1,18 @@
+
+GET  http://localhost:5000/api/persons
+
+###
+
+POST   http://localhost:5000/api/persons
+Content-Type: application/json
+
+ {
+     "id": 8,
+    "name": "Nufidat Hellas",
+    "number": "0499-123456"
+}
+###
+POST   http://localhost:5000/api/persons
+Content-Type: application/json
+
+ 
