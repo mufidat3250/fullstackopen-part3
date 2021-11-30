@@ -6,6 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(morgan("tiny"));
 
+morgan.token(":method :status :url'HTTP/:http-version'");
+
 let persons = [
   {
     id: 1,
