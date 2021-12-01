@@ -4,9 +4,15 @@ const morgan = require("morgan");
 
 const app = express();
 app.use(express.json());
-app.use(morgan("tiny"));
+// app.use(morgan("tiny"));
 
-morgan.token(":method :status :url'HTTP/:http-version'");
+morgan.token("body", (req, res) => JSON.stringify(req.body));
+
+const morganMiddleware = morgan(
+  ":method :url :status :res[content-length] - :response-time ms :body :http-version"
+);
+
+app.use(morganMiddleware);
 
 let persons = [
   {

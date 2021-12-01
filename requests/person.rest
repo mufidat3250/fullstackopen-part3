@@ -8,7 +8,7 @@ Content-Type: application/json
 
  {
      "id": 0,
-    "name": "Nufidat",
+    "name": "Nt",
     "number": "0499-123456"
 }
 ###
