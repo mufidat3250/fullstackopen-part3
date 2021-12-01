@@ -9,10 +9,14 @@ Content-Type: application/json
  {
      "id": 0,
     "name": "Nt",
-    "number": "0499-123456"
+    "number": "99-123456"
 }
 ###
 POST   http://localhost:5000/api/persons
 Content-Type: application/json
 
- 
+  {
+     "id": 0,
+    "name": "jkjk",
+    "number": "99-123456"
+}
