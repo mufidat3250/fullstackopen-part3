@@ -1,22 +1,22 @@
 
-GET  http://localhost:5000/api/persons
+GET  http://localhost:3000/api/persons
 
 ###
 
-POST   http://localhost:5000/api/persons
+POST   http://localhost:3000/api/persons
 Content-Type: application/json
 
  {
-     "id": 0,
+     
     "name": "Nt",
     "number": "99-123456"
 }
 ###
-POST   http://localhost:5000/api/persons
+POST   http://localhost:3000/api/persons
 Content-Type: application/json
 
   {
-     "id": 0,
+
     "name": "jkhh",
     "number": "99-123456"
 }
