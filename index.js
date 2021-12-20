@@ -64,18 +64,29 @@ app.get("/info", (request, response) => {
 });
 
 app.get(`/api/persons/:id`, (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
+  // const id = Number(request.params.id);
+  // const person = persons.find((person) => person.id === id);
+
+  Person.findById(request.params.id).then((person) => {
     response.json(person);
-  } else {
-    response.status(404).send("<h1>Error 404</h1>");
-  }
+  });
+
+  // if (person) {
+  //   response.json(person);
+  // } else {
+  //   response.status(404).send("<h1>Error 404</h1>");
+  // }
 });
-app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((person, index) => person.id !== id);
-  response.status(204).end();
+app.delete("/api/persons/:id", (request, response, next) => {
+  // const id = Number(request.params.id);
+  // persons = persons.filter((person, index) => person.id !== id);
+  // response.status(204).end();
+
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.post("/api/persons", (request, response) => {
