@@ -1,7 +1,9 @@
+require("dotenv").config();
 const { request, response } = require("express");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(express.json());
@@ -10,8 +12,6 @@ app.use(express.static("build"));
 
 const Person = require("./mongo");
 // / app.use(morgan("tiny"));.....default morgan specification
-
-require("dotenv").config();
 
 morgan.token("body", (req, res) => JSON.stringify(req.body));
 
@@ -90,9 +90,14 @@ app.post("/api/persons", (request, response) => {
 
   persons = persons.concat(person_);
   response.json(person_);
+
+  person_.save().then((result) => {
+    console.log("person saved!");
+    mongoose.connection.close();
+  });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

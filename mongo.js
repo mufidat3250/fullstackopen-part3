@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 
-console.log(process.PASS_WORD);
+console.log(process.env.PASS_WORD);
 
 if (process.argv.length < 3) {
   console.log(
@@ -10,14 +10,15 @@ if (process.argv.length < 3) {
   process.exit(1);
 }
 const password = process.argv[2];
-const url = `mongodb+srv://mufidat:<iyanu3250> @cluster0.5aeqz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const url = `mongodb+srv://mufidat:${password}@cluster0.bhkys.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 mongoose.connect(url);
 
 const personSchema = new mongoose.Schema({
+  id: Number,
   name: String,
   number: String,
 });
 
-const Person = mongoose.model("Person", personSchema);
+const Person = mongoose.model("People", personSchema);
 
 module.exports = Person;
