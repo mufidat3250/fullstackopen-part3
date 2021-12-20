@@ -4,13 +4,13 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const Person = require("./models/person");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static("build"));
 
-const Person = require("./mongo");
 // / app.use(morgan("tiny"));.....default morgan specification
 
 morgan.token("body", (req, res) => JSON.stringify(req.body));
@@ -49,7 +49,9 @@ let persons = [
 // });
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find().then((person) => {
+    response.json(person);
+  });
 });
 
 app.get("/info", (request, response) => {
@@ -73,7 +75,7 @@ app.get(`/api/persons/:id`, (request, response) => {
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter((person, index) => person.id !== id);
-  request.status(204).end();
+  response.status(204).end();
 });
 
 app.post("/api/persons", (request, response) => {
