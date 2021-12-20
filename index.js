@@ -8,7 +8,10 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("build"));
 
-// app.use(morgan("tiny"));.....default morgan specification
+const Person = require("./mongo");
+// / app.use(morgan("tiny"));.....default morgan specification
+
+require("dotenv").config();
 
 morgan.token("body", (req, res) => JSON.stringify(req.body));
 
@@ -73,22 +76,22 @@ app.delete("/api/persons/:id", (request, response) => {
   request.status(204).end();
 });
 
-app.post("/api/persons/", (request, response) => {
+app.post("/api/persons", (request, response) => {
   let body = request.body;
   console.log(body);
   if (!body.name && !body.number) {
     return response.status(400).json({ error: "missing name" });
   }
 
-  const person_ = {
-    id: Math.floor(Math.random() * 1000),
+  const person_ = new Person({
     name: body.name,
     number: body.number,
-  };
+  });
 
   persons = persons.concat(person_);
   response.json(person_);
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port${PORT}`);
