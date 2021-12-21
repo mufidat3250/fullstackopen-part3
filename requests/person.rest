@@ -8,7 +8,7 @@ Content-Type: application/json
 
  {
      
-    "name": "Nt",
+    "name": "sofia",
     "number": "99-9999156"
 }
 ###

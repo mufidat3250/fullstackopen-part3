@@ -63,7 +63,7 @@ app.get("/info", (request, response) => {
   response.json(persons);
 });
 
-app.get(`/api/persons/:id`, (request, response) => {
+app.get(`/api/persons/:id`, (request, response, next) => {
   // const id = Number(request.params.id);
   // const person = persons.find((person) => person.id === id);
 
@@ -75,11 +75,19 @@ app.get(`/api/persons/:id`, (request, response) => {
         response.status(404).send("<h1>Error 404</h1>");
       }
     })
-    .catch((error) => {
-      console.log(error);
-      response.status(500).send({ error: "malformatted id" });
-    });
+    .catch((error) => next(error));
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
 
 app.delete("/api/persons/:id", (request, response, next) => {
   // const id = Number(request.params.id);
