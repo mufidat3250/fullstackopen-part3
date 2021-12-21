@@ -78,6 +78,18 @@ app.get(`/api/persons/:id`, (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.delete("/api/persons/:id", (request, response, next) => {
+  // const id = Number(request.params.id);
+  // persons = persons.filter((person, index) => person.id !== id);
+  // response.status(204).end();
+
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
+});
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
@@ -89,14 +101,17 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler);
 
-app.delete("/api/persons/:id", (request, response, next) => {
-  // const id = Number(request.params.id);
-  // persons = persons.filter((person, index) => person.id !== id);
-  // response.status(204).end();
+app.put("/api/notes/:id", (request, response, next) => {
+  const body = request.body;
 
-  Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
-      response.status(204).end();
+  const person_ = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(request.params.id, person_, { new: true })
+    .then((updatedperson) => {
+      response.json(updatedperson);
     })
     .catch((error) => next(error));
 });
