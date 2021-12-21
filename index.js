@@ -67,16 +67,20 @@ app.get(`/api/persons/:id`, (request, response) => {
   // const id = Number(request.params.id);
   // const person = persons.find((person) => person.id === id);
 
-  Person.findById(request.params.id).then((person) => {
-    response.json(person);
-  });
-
-  // if (person) {
-  //   response.json(person);
-  // } else {
-  //   response.status(404).send("<h1>Error 404</h1>");
-  // }
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).send("<h1>Error 404</h1>");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).send({ error: "malformatted id" });
+    });
 });
+
 app.delete("/api/persons/:id", (request, response, next) => {
   // const id = Number(request.params.id);
   // persons = persons.filter((person, index) => person.id !== id);
